@@ -1,0 +1,335 @@
+﻿<Window x:Class="Instrument_Plc_Converter.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        SizeToContent="WidthAndHeight"
+        ResizeMode="NoResize,CanMinimize"
+        FontSize="13"
+        Icon="Assets/gauge.ico"
+        RenderOptions.BitmapScalingMode="HighQuality"
+        Title="Instrument Plc Data Converter" Height="450" Width="1000">
+
+    <Grid>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260" />
+            <ColumnDefinition Width="250" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <Grid Grid.Row="0" Grid.Column="0" Margin="10">
+            <GroupBox Header="Signal (Electrical)" BorderBrush="#37475E" Height="150">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Signal Type:" />
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="LRV:" />
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="URV:" />
+
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              Height="22"
+                              Width="120"
+                              Margin="15,5,0,5"
+                              Text="{Binding SignalTypeReference}">
+                        <ComboBoxItem Content="4-20mA" />
+                        <ComboBoxItem Content="0-10V" />
+                        <ComboBoxItem Content="1-5V" />
+                    </ComboBox>
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center"
+                             Height="22"
+                             Width="120"
+                             Margin="15,5,0,5"
+                             Text="{Binding LrvSignal }"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center"
+                             Height="22"
+                             Width="120"
+                             Margin="15,5,0,5"
+                             Text="{Binding UrvSignal}"/>
+
+                </Grid>
+
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="0" Grid.Column="1" Margin="10">
+            <GroupBox Header="Engineering Range" BorderBrush="#37475E" Height="150">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="LRV:" />
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="URV:" />
+                    
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Unit:" />
+
+                    <TextBox Grid.Row="1" Grid.Column="1"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center"
+                             Height="22"
+                             Width="120"
+                             Margin="40,5,0,5"
+                             Text="{Binding LrvEngineering}"/>
+                    <TextBox Grid.Row="2" Grid.Column="1"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center"
+                             Height="22"
+                             Width="120"
+                             Margin="40,5,0,5"
+                             Text="{Binding UrvEngineering}"/>
+                    
+                    <ComboBox Grid.Row="0" Grid.Column="1"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              Height="22"
+                              Width="120"
+                              Margin="40,5,0,5"
+                              Text="{Binding UnitEngineering}">
+                        <ComboBoxItem Content="Celsius" />
+                        <ComboBoxItem Content="Psi" />
+                        <ComboBoxItem Content="BAR" />
+                    </ComboBox>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="0" Margin="10">
+            <GroupBox Header="PLC Scaling" BorderBrush="#37475E" Height="150">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Brand:" />
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Raw Min:" />
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Raw Max:" />
+
+                    <ComboBox x:Name="BrandPlc" Grid.Row="0" Grid.Column="1"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              Height="22"
+                              Width="120"
+                              Margin="30,5,5,5"
+                              ItemsSource="{Binding ProfileList}"
+                              DisplayMemberPath="ProfileName"
+                              SelectedItem="{Binding SelectedProfile}"/>
+                    <Label Grid.Row="1" Grid.Column="1"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"
+                           Height="25"
+                           Width="120"
+                           Margin="30,5,5,5"
+                           Content="{Binding SelectedProfile.RawMin}"/>
+                    <Label Grid.Row="2" Grid.Column="1"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Center"
+                           Height="25"
+                           Width="120"
+                           Margin="30,5,5,5"
+                           Content="{Binding SelectedProfile.RawMax}"/>
+
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="1" Grid.Column="1" Margin="10">
+            <GroupBox Header="Input Value" BorderBrush="#37475E" Height="150">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Type:"
+                               />
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Value:" />
+                    
+                    <Button x:Name="CalcButton" Grid.Row="2" Grid.Column="0" Content="Calculate" Width="90" Height="25"
+                    VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,15,0,0" 
+                    Command="{Binding ExecuteMath}"/>
+
+                    <ComboBox Grid.Row="0"
+                              VerticalContentAlignment="Center"
+                              HorizontalContentAlignment="Center"
+                              Height="22"
+                              Width="120"
+                              Margin="70,5,5,5"
+                              ItemsSource="{Binding InputType}"
+                              DisplayMemberPath="InputType"
+                              SelectedValuePath="InputType"
+                              SelectedValue="{Binding SelectedType}"/>
+                    <TextBox Grid.Row="1"
+                             VerticalContentAlignment="Center"
+                             HorizontalContentAlignment="Center"
+                             Height="22"
+                             Width="120"
+                             Margin="70,5,5,5"
+                             Text="{Binding CurrentValue}"/>
+                </Grid>
+            </GroupBox>
+        </Grid>
+
+        <Grid Grid.Row="2" Grid.Column="0" Margin="10">
+            <GroupBox Header="Results" BorderBrush="#37475E" Height="200">
+                <Grid Margin="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto"/> 
+                        <RowDefinition Height="Auto"/> 
+                    </Grid.RowDefinitions>
+
+                    <TextBlock Grid.Column="0" Grid.Row="0"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Engineering:" />
+                    <TextBlock Grid.Column="0" Grid.Row="1"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Signal:" />
+                    <TextBlock Grid.Column="0" Grid.Row="2"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Raw:" />
+                    <TextBlock Grid.Column="0" Grid.Row="3"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Electric Span:" />
+                    <TextBlock Grid.Column="0" Grid.Row="4"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Left"
+                               Text="Engineering Span:" />
+
+                    <Label Grid.Row="0" Grid.Column="1"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Left"
+                           Width="120"
+                           Margin="45,5,5,0"
+                           Content="106.5" />
+                    <Label x:Name="SignalResult" Grid.Row="1" Grid.Column="1"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Left"
+                           Width="120"
+                           Margin="45,4,5,0"
+                           Content="106.5" />
+                    <Label x:Name="RawResult" Grid.Row="2" Grid.Column="1"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Left"
+                           Width="120"
+                           Margin="45,4,5,0"
+                           Content="106.5" />
+                    <Label Grid.Row="3" Grid.Column="1"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Left"
+                           Width="120"
+                           Margin="45,4,5,0"
+                           Content="{Binding ElectricSpanResult}" />
+                    <Label Grid.Row="4" Grid.Column="1"
+                           VerticalContentAlignment="Center"
+                           HorizontalContentAlignment="Left"
+                           Width="120"
+                           Margin="45,4,5,0"
+                           Content="{Binding EngineeringSpanResult}" />
+                </Grid>
+            </GroupBox>
+        </Grid>
+        
+        <Grid Grid.Column="1" Grid.Row="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Image  Margin="0,80,10,0" >
+                <Image.Source>
+                    <BitmapImage DecodePixelHeight="115" DecodePixelWidth="350" UriSource="Assets/horizontallogo.png" />
+                </Image.Source>
+            </Image>
+            <TextBlock Grid.Row="1" Text="V1.0 - Telegram: SyncCoreSystems" HorizontalAlignment="Center" 
+            VerticalAlignment="Center">
+                <Hyperlink NavigateUri="https://t.me/SyncCoreSystems"></Hyperlink>
+            </TextBlock>
+        </Grid>
+        
+    </Grid>
+</Window>

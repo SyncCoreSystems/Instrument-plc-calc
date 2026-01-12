@@ -1,0 +1,32 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>WinExe</OutputType>
+        <TargetFramework>net10.0-windows</TargetFramework>
+        <RootNamespace>Instrument_Plc_Converter</RootNamespace>
+        <LangVersion>14</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UseWPF>true</UseWPF>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Assets\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="Assets\gauge.ico" />
+      <Resource Include="Assets\gauge.ico" />
+      <None Remove="Assets\logoNexaryn.png" />
+      <Resource Include="Assets\logoNexaryn.png" />
+      <None Remove="Assets\logoSynccore.png" />
+      <Resource Include="Assets\logoSynccore.png" />
+      <None Remove="Assets\horizontallogo.png" />
+      <Resource Include="Assets\horizontallogo.png" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+    </ItemGroup>
+
+</Project>
