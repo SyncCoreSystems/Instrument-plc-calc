@@ -11,7 +11,7 @@
         RenderOptions.BitmapScalingMode="HighQuality"
         Title="Instrument Plc Data Converter" Height="450" Width="1000">
 
-    <ScrollViewer>
+    <!-- <ScrollViewer> -->
         <Grid>
 
             <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
             </Grid.RowDefinitions>
 
             <Grid Grid.Row="0" Grid.Column="0" Margin="10">
-                <GroupBox Header="Signal (Electrical)" BorderBrush="#37475E" Height="150">
+                <GroupBox Header="Electrical Signal" BorderBrush="#37475E" Height="150">
                     <Grid Margin="10">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
@@ -61,25 +61,23 @@
                                   Height="22"
                                   Width="120"
                                   Margin="15,5,0,5"
-                                  Text="{Binding SignalTypeReference}">
-                            <ComboBoxItem Content="4-20mA" />
-                            <ComboBoxItem Content="0-10V" />
-                            <ComboBoxItem Content="1-5V" />
-                        </ComboBox>
-                        <TextBox Grid.Row="1" Grid.Column="1"
+                                  ItemsSource="{Binding InstrumentSignal}"
+                                  DisplayMemberPath="SignalType"
+                                  SelectedItem="{Binding SignalTypeReference}"/>
+                        <Label Grid.Row="1" Grid.Column="1"
                                  VerticalContentAlignment="Center"
                                  HorizontalContentAlignment="Center"
-                                 Height="22"
+                                 Height="25"
                                  Width="120"
                                  Margin="15,5,0,5"
-                                 Text="{Binding LrvSignal }" />
-                        <TextBox Grid.Row="2" Grid.Column="1"
+                                 Content="{Binding SignalTypeReference.LowerRangeValue }" />
+                        <Label Grid.Row="2" Grid.Column="1"
                                  VerticalContentAlignment="Center"
                                  HorizontalContentAlignment="Center"
-                                 Height="22"
+                                 Height="25"
                                  Width="120"
                                  Margin="15,5,0,5"
-                                 Text="{Binding UrvSignal}" />
+                                 Content="{Binding SignalTypeReference.UpperRangeValue}" />
 
                     </Grid>
 
@@ -171,7 +169,7 @@
                                    HorizontalAlignment="Left"
                                    Text="Raw Max:" />
 
-                        <ComboBox x:Name="BrandPlc" Grid.Row="0" Grid.Column="1"
+                        <ComboBox Grid.Row="0" Grid.Column="1"
                                   VerticalContentAlignment="Center"
                                   HorizontalContentAlignment="Center"
                                   Height="22"
@@ -220,7 +218,7 @@
                                    HorizontalAlignment="Left"
                                    Text="Value:" />
 
-                        <Button x:Name="CalcButton" Grid.Row="2" Grid.Column="0" Content="Calculate" Width="90"
+                        <Button Grid.Row="2" Grid.Column="0" Content="Calculate" Width="90"
                                 Height="25"
                                 VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0,15,0,0"
                                 Command="{Binding ExecuteMath}" />
@@ -333,5 +331,5 @@
                 </TextBlock>
             </Grid>
         </Grid>
-    </ScrollViewer>
+    <!-- </ScrollViewer> -->
 </Window>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.Windows;
 using CommunityToolkit.Mvvm.Input;
 using Instrument_Plc_Converter.Model;
 using Instrument_Plc_Converter.ViewModel;
@@ -8,9 +9,6 @@ namespace Instrument_Plc_Converter;
 
 public class CalculationApp : ViewModelBase
 {
-    public double electricalValue { get; set; }
-    public double Test2 { get; set; }
-
     #region Relay Commands
 
     public IRelayCommand ExecuteMath { get; }
@@ -19,7 +17,7 @@ public class CalculationApp : ViewModelBase
 
     #region Instance Classes
 
-    private readonly SignalInstrument _signalInstrument = new();
+    // private readonly SignalInstrument _signalInstrument = new();
     private readonly EngineeringInstrument _engineeringInstrument = new();
     private readonly InputValue _inputValue = new();
     private readonly MathFormulas _mathFormulas = new();
@@ -47,37 +45,35 @@ public class CalculationApp : ViewModelBase
         new InputValue { InputType = "Raw", CurrentValue = 0 },
     };
 
+    public ObservableCollection<SignalInstrument> InstrumentSignal { get; } = new()
+    {
+        new SignalInstrument { SignalType = "4-20mA", LowerRangeValue = 4, UpperRangeValue = 20 },
+        new SignalInstrument { SignalType = "0-20mA", LowerRangeValue = 0, UpperRangeValue = 20 },
+        new SignalInstrument { SignalType = "0-10V", LowerRangeValue = 0, UpperRangeValue = 10 },
+        new SignalInstrument { SignalType = "1-5V", LowerRangeValue = 1, UpperRangeValue = 5 },
+        new SignalInstrument { SignalType = "2-10V", LowerRangeValue = 2, UpperRangeValue = 10 }
+    };
+
     #endregion
 
     #region Instrument Signal
 
-    public string SignalTypeReference
-    {
-        get => _signalInstrument.SignalType;
-        set => _signalInstrument.SignalType = value;
-    }
+    private SignalInstrument _signalInstrument;
 
-    public int LrvSignal
+    public SignalInstrument SignalTypeReference
     {
-        get => _signalInstrument.LowerRangeValue;
+        get => _signalInstrument;
         set
         {
-            _signalInstrument.LowerRangeValue = value;
+            _signalInstrument = value;
             OnPropertyChanged();
             OnPropertyChanged(nameof(ElectricSpanResult));
         }
     }
 
-    public int UrvSignal
-    {
-        get => _signalInstrument.UpperRangeValue;
-        set
-        {
-            _signalInstrument.UpperRangeValue = value;
-            OnPropertyChanged();
-            OnPropertyChanged(nameof(ElectricSpanResult));
-        }
-    }
+    public int LrvSignal => _signalInstrument.LowerRangeValue;
+
+    public int UrvSignal => _signalInstrument.UpperRangeValue;
 
     public double ElectricSpanResult => _signalInstrument.Span;
 
@@ -153,6 +149,7 @@ public class CalculationApp : ViewModelBase
 
     // Electrical Signal Value
     private double _electricSignalValue;
+
     public double ElectricSignalValue
     {
         get => _electricSignalValue;
@@ -162,7 +159,7 @@ public class CalculationApp : ViewModelBase
             OnPropertyChanged();
         }
     }
-    
+
     // Engineering Signal
     private double _engineeringValue;
 
@@ -187,13 +184,19 @@ public class CalculationApp : ViewModelBase
             OnPropertyChanged();
         }
     }
-    
-    // Method for execute
-    void ExecuteCalculation()
+
+    // Methods for execute if the input type is Engineering
+    void EngineeringMode()
     {
-        switch (_inputValue.InputType)
+        try
         {
-            case "Engineering":
+            if (CurrentValue > UrvEngineering || CurrentValue < LrvEngineering)
+            {
+                MessageBox.Show("The input value is out of instrument engineering range.");
+            }
+
+            if (CurrentValue <= UrvEngineering && CurrentValue >= LrvEngineering)
+            {
                 // Electrical Value
                 ElectricSignalValue = _mathFormulas.EngineeringToElectrical(
                     CurrentValue,
@@ -201,7 +204,6 @@ public class CalculationApp : ViewModelBase
                     ElectricSpanResult,
                     LrvEngineering,
                     UrvEngineering);
-                
                 // Raw Plc Value
                 RawValue = _mathFormulas.EngineeringToRaw(
                     CurrentValue,
@@ -210,21 +212,131 @@ public class CalculationApp : ViewModelBase
                     LrvEngineering,
                     UrvEngineering
                 );
-                
                 // Engineering Value is equal to Input Value
                 EngineeringValue = CurrentValue;
+            }
+        }
+        catch (Exception e)
+        {
+            MessageBox.Show($"{e}");
+        }
+    }
+
+    // Methods for execute if the input type is Signal
+    void SignalMode()
+    {
+        if (CurrentValue > UrvSignal || CurrentValue < LrvSignal)
+        {
+            MessageBox.Show("The input value is out of instrument electrical range.");
+        }
+
+        if (CurrentValue <= UrvSignal && CurrentValue >= LrvSignal)
+        {
+            // Engineering Value
+            EngineeringValue = _mathFormulas.ElectricalToEngineering(
+                CurrentValue,
+                LrvSignal,
+                ElectricSpanResult,
+                LrvEngineering,
+                UrvEngineering
+            );
+            // Raw Value
+            RawValue = _mathFormulas.ElectricalToRaw(
+                CurrentValue,
+                LrvSignal,
+                UrvSignal,
+                SelectedProfile.RawMin,
+                SelectedProfile.RawMax
+            );
+            // Signal is equal to Input Value
+            ElectricSignalValue = CurrentValue;
+        }
+    }
+
+    // Methods for execute if the input type is Raw
+    void RawMode()
+    {
+        if (CurrentValue > SelectedProfile.RawMax || CurrentValue < SelectedProfile.RawMin)
+        {
+            MessageBox.Show("The input value is out of plc range.");
+        }
+
+        if (CurrentValue <= SelectedProfile.RawMax && CurrentValue >= SelectedProfile.RawMin)
+        {
+            // Engineering Value
+            EngineeringValue = _mathFormulas.RawToEngineering(
+                CurrentValue,
+                SelectedProfile.RawMin,
+                SelectedProfile.RawMax,
+                LrvEngineering,
+                UrvEngineering
+            );
+
+            // Signal Value
+            ElectricSignalValue = _mathFormulas.RawToElectrical(
+                CurrentValue,
+                SelectedProfile.RawMin,
+                SelectedProfile.RawMax,
+                LrvSignal,
+                UrvSignal
+            );
+            // Raw Plc Value is equal to Input Value
+            RawValue = CurrentValue;
+        }
+    }
+
+    // Method for execute math formulas
+    void ExecuteCalculation()
+    {
+        #region Validations
+
+        if (SignalTypeReference == null)
+        {
+            MessageBox.Show("Specify the electrical instrument signal type");
+        }
+
+        if (SelectedProfile == null)
+        {
+            MessageBox.Show("Specify the brand plc scaling");
+        }
+
+        if (string.IsNullOrEmpty(SelectedType))
+        {
+            MessageBox.Show("Specify the input type");
+        }
+
+        if (string.IsNullOrEmpty(UnitEngineering))
+        {
+            MessageBox.Show("Specify the Engineering Unit");
+        }
+
+        if (LrvEngineering == 0 || UrvEngineering == 0)
+        {
+            MessageBox.Show("Engineering values cannot be empty or equal to 0.");
+        }
+
+        if (UrvEngineering <= LrvEngineering)
+            MessageBox.Show("Engineering URV value must be greater than LRV.");
+
+        #endregion
+
+        switch (SelectedType)
+        {
+            case "Engineering":
+                if (LrvEngineering != 0 && UrvEngineering != 0 && UrvEngineering > LrvEngineering)
+                {
+                    EngineeringMode();
+                }
+
                 break;
             case "Signal":
-               // Signal is equal to Input Value
-               ElectricSignalValue = CurrentValue;
+                SignalMode();
                 break;
             case "Raw":
-                // Raw Plc Value is equal to Input Value
-                RawValue = CurrentValue;
+                RawMode();
                 break;
         }
     }
 
     #endregion
-    
 }

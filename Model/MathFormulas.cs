@@ -17,10 +17,21 @@ public class MathFormulas : IScalingMath
         double engineeringMax
     )
     {
-        var engineeringValue = ((rawValue - rawMin) * (engineeringMax - engineeringMin)) /
-            (rawMax - rawMin) + engineeringMin;
+        return Math.Round(((rawValue - rawMin) * (engineeringMax - engineeringMin)) /
+            (rawMax - rawMin) + engineeringMin, 1);
+    }
 
-        return engineeringValue;
+    // PLC Raw → Current or Voltage
+    public double RawToElectrical(
+        double rawValue,
+        double rawMin,
+        double rawMax,
+        double electricalMin,
+        double electricalMax
+    )
+    {
+        return Math.Round(((rawValue - rawMin) * (electricalMax - electricalMin)) / (rawMax - rawMin) + electricalMin,
+            1);
     }
 
     // Engineering → PLC Raw
@@ -31,10 +42,8 @@ public class MathFormulas : IScalingMath
         double engineeringMax
     )
     {
-        var rawValue = ((engineeringValue - engineeringMin) * (rawMax - rawMin)) /
-            (engineeringMax - engineeringMin) + rawMin;
-
-        return rawValue;
+        return Math.Round(((engineeringValue - engineeringMin) * (rawMax - rawMin)) /
+            (engineeringMax - engineeringMin) + rawMin);
     }
 
     #endregion
@@ -44,29 +53,40 @@ public class MathFormulas : IScalingMath
     // Current or Voltage → Engineering Value
     public double ElectricalToEngineering(
         double electricalValue,
-        int lrv,
-        double span,
-        double engineeringMin,
-        double engineeringMax
-    )
-    {
-        var engineeringValue = ((electricalValue - lrv) * (engineeringMax - engineeringMin)) /
-            span + engineeringMin;
-
-        return engineeringValue;
-    }
-
-    // Engineering Value → Current or Voltage
-    public double EngineeringToElectrical(
-        double engineeringValue,
-        int lrv,
+        double electricalLrv,
         double electricalSpan,
         double engineeringMin,
         double engineeringMax
     )
     {
-        return ((engineeringValue - engineeringMin) * electricalSpan) /
-            (engineeringMax - engineeringMin) + lrv;
+        return Math.Round(((electricalValue - electricalLrv) * (engineeringMax - engineeringMin)) /
+            electricalSpan + engineeringMin, 1);
+    }
+
+    // Current or Voltage → Plc Raw
+    public double ElectricalToRaw(
+        double electricalValue,
+        double electricalLrv,
+        double electricalUrv,
+        double rawMin,
+        double rawMax
+    )
+    {
+        return Math.Round(((electricalValue - electricalLrv) * (rawMax - rawMin)) / (electricalUrv - electricalLrv) +
+                          rawMin);
+    }
+
+    // Engineering Value → Current or Voltage
+    public double EngineeringToElectrical(
+        double engineeringValue,
+        double electricalLrv,
+        double electricalSpan,
+        double engineeringMin,
+        double engineeringMax
+    )
+    {
+        return Math.Round(((engineeringValue - engineeringMin) * electricalSpan) /
+            (engineeringMax - engineeringMin) + electricalLrv, 1);
     }
 
     #endregion

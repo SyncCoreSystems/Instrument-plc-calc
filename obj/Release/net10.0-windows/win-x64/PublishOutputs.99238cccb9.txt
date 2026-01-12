@@ -1,0 +1,7 @@
+C:\Users\stive\Documents\VS_Projects\Instrument-plc-calc\Instrument-Plc-Converter.pdb
+C:\Users\stive\Documents\VS_Projects\Instrument-plc-calc\D3DCompiler_47_cor3.dll
+C:\Users\stive\Documents\VS_Projects\Instrument-plc-calc\PenImc_cor3.dll
+C:\Users\stive\Documents\VS_Projects\Instrument-plc-calc\PresentationNative_cor3.dll
+C:\Users\stive\Documents\VS_Projects\Instrument-plc-calc\vcruntime140_cor3.dll
+C:\Users\stive\Documents\VS_Projects\Instrument-plc-calc\wpfgfx_cor3.dll
+C:\Users\stive\Documents\VS_Projects\Instrument-plc-calc\Instrument-Plc-Converter.exe
