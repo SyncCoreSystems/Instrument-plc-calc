@@ -134,9 +134,21 @@
                                   Width="120"
                                   Margin="40,5,0,5"
                                   Text="{Binding UnitEngineering}">
+                            <ComboBoxItem Content="Fahrenheit" />
                             <ComboBoxItem Content="Celsius" />
-                            <ComboBoxItem Content="Psi" />
-                            <ComboBoxItem Content="BAR" />
+                            <ComboBoxItem Content="bar" />
+                            <ComboBoxItem Content="psi" />
+                            <ComboBoxItem Content="kPa" />
+                            <ComboBoxItem Content="L/min" />
+                            <ComboBoxItem Content="m3/h" />
+                            <ComboBoxItem Content="%" />
+                            <ComboBoxItem Content="L" />
+                            <ComboBoxItem Content="m" />
+                            <ComboBoxItem Content="mm" />
+                            <ComboBoxItem Content="A" />
+                            <ComboBoxItem Content="V" />
+                            <ComboBoxItem Content="Hz" />
+                            <ComboBoxItem Content="rpm" />
                         </ComboBox>
                     </Grid>
                 </GroupBox>

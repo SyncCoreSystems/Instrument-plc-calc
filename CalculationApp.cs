@@ -17,7 +17,6 @@ public class CalculationApp : ViewModelBase
 
     #region Instance Classes
 
-    // private readonly SignalInstrument _signalInstrument = new();
     private readonly EngineeringInstrument _engineeringInstrument = new();
     private readonly InputValue _inputValue = new();
     private readonly MathFormulas _mathFormulas = new();
@@ -35,7 +34,13 @@ public class CalculationApp : ViewModelBase
     {
         new PlcProfile { ProfileName = "Siemens", RawMin = 0, RawMax = 27648 },
         new PlcProfile { ProfileName = "Delta", RawMin = 0, RawMax = 4000 },
-        new PlcProfile { ProfileName = "AllenBradley", RawMin = 0, RawMax = 65847 }
+        new PlcProfile { ProfileName = "ControlLogix", RawMin = 0, RawMax = 32767 },
+        new PlcProfile { ProfileName = "MicroLogix", RawMin = 0, RawMax = 16383 },
+        new PlcProfile { ProfileName = "Modicon", RawMin = 0, RawMax = 27648 },
+        new PlcProfile { ProfileName = "Melsec FX", RawMin = 0, RawMax = 4000 },
+        new PlcProfile { ProfileName = "Melsec Q/L/R", RawMin = 0, RawMax = 32000 },
+        new PlcProfile { ProfileName = "Omron", RawMin = 0, RawMax = 4000 },
+        new PlcProfile { ProfileName = "Omron Scale", RawMin = 0, RawMax = 20000 },
     };
 
     public ObservableCollection<InputValue> InputType { get; } = new()
@@ -310,7 +315,7 @@ public class CalculationApp : ViewModelBase
             MessageBox.Show("Specify the Engineering Unit");
         }
 
-        if (LrvEngineering == 0 || UrvEngineering == 0)
+        if (LrvEngineering < 0 || UrvEngineering == 0)
         {
             MessageBox.Show("Engineering values cannot be empty or equal to 0.");
         }
@@ -323,7 +328,7 @@ public class CalculationApp : ViewModelBase
         switch (SelectedType)
         {
             case "Engineering":
-                if (LrvEngineering != 0 && UrvEngineering != 0 && UrvEngineering > LrvEngineering)
+                if (LrvEngineering >= 0 && UrvEngineering != 0 && UrvEngineering > LrvEngineering)
                 {
                     EngineeringMode();
                 }
