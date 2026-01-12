@@ -3,6 +3,6 @@
 public class PlcProfile
 {
     public string ProfileName { get; set; } = string.Empty;
-    public int RawMin { get; set; }
-    public int RawMax { get; set; }
+    public double RawMin { get; set; }
+    public double RawMax { get; set; }
 }

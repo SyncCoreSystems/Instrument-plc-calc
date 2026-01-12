@@ -2,15 +2,15 @@
 using System.Diagnostics;
 using CommunityToolkit.Mvvm.Input;
 using Instrument_Plc_Converter.Model;
-using Instrument_Plc_Converter.Services;
 using Instrument_Plc_Converter.ViewModel;
 
 namespace Instrument_Plc_Converter;
 
 public class CalculationApp : ViewModelBase
 {
-    public double Test { get;  set; }
+    public double electricalValue { get; set; }
     public double Test2 { get; set; }
+
     #region Relay Commands
 
     public IRelayCommand ExecuteMath { get; }
@@ -22,6 +22,7 @@ public class CalculationApp : ViewModelBase
     private readonly SignalInstrument _signalInstrument = new();
     private readonly EngineeringInstrument _engineeringInstrument = new();
     private readonly InputValue _inputValue = new();
+    private readonly MathFormulas _mathFormulas = new();
 
     #endregion
 
@@ -130,7 +131,6 @@ public class CalculationApp : ViewModelBase
         set => _inputValue.CurrentValue = value;
     }
 
-
     #endregion
 
     #region Plc Profiles
@@ -149,28 +149,82 @@ public class CalculationApp : ViewModelBase
 
     #endregion
 
+    #region Execute Calculation Formulas
+
+    // Electrical Signal Value
+    private double _electricSignalValue;
+    public double ElectricSignalValue
+    {
+        get => _electricSignalValue;
+        set
+        {
+            _electricSignalValue = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    // Engineering Signal
+    private double _engineeringValue;
+
+    public double EngineeringValue
+    {
+        get => _engineeringValue;
+        set
+        {
+            _engineeringValue = value;
+            OnPropertyChanged();
+        }
+    }
+
+    private double _rawValue;
+
+    public double RawValue
+    {
+        get => _rawValue;
+        set
+        {
+            _rawValue = value;
+            OnPropertyChanged();
+        }
+    }
+    
+    // Method for execute
     void ExecuteCalculation()
     {
         switch (_inputValue.InputType)
         {
             case "Engineering":
-                Test = CalculationService.GetElectricalValueFromEngineering();
+                // Electrical Value
+                ElectricSignalValue = _mathFormulas.EngineeringToElectrical(
+                    CurrentValue,
+                    LrvSignal,
+                    ElectricSpanResult,
+                    LrvEngineering,
+                    UrvEngineering);
+                
+                // Raw Plc Value
+                RawValue = _mathFormulas.EngineeringToRaw(
+                    CurrentValue,
+                    SelectedProfile.RawMin,
+                    SelectedProfile.RawMax,
+                    LrvEngineering,
+                    UrvEngineering
+                );
+                
+                // Engineering Value is equal to Input Value
+                EngineeringValue = CurrentValue;
                 break;
             case "Signal":
-                CalculationService.GetEngineeringValueFromElectrical();
+               // Signal is equal to Input Value
+               ElectricSignalValue = CurrentValue;
                 break;
             case "Raw":
+                // Raw Plc Value is equal to Input Value
+                RawValue = CurrentValue;
                 break;
         }
-        Debug.WriteLine(Test);
-        Debug.WriteLine(Test2);
-        Debug.WriteLine($"SelectedProfile: {SelectedProfile}");
-        Debug.WriteLine($"ElectricalSpan={ElectricSpanResult}, EngineeringSpan={EngineeringSpanResult}");
-        Debug.WriteLine($"InputValue: {CurrentValue}");
-        Debug.WriteLine($"InputValue: {SelectedType}");
-        Debug.WriteLine($"InputValue: {CalculationService.RawMin}");
-        Debug.WriteLine($"InputValue: {CalculationService.RawMax}");
-
-
     }
+
+    #endregion
+    
 }

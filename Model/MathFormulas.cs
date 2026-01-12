@@ -1,11 +1,11 @@
-﻿using Instrument_Plc_Converter.Model.Interfaces;
+﻿using System.Diagnostics;
+using Instrument_Plc_Converter.Model.Interfaces;
 
 
 namespace Instrument_Plc_Converter.Model;
 
 public class MathFormulas : IScalingMath
 {
-    
     #region Plc Raw Value and Engineering Value
 
     // PLC Raw → Engineering Value
@@ -60,15 +60,13 @@ public class MathFormulas : IScalingMath
     public double EngineeringToElectrical(
         double engineeringValue,
         int lrv,
-        double span,
+        double electricalSpan,
         double engineeringMin,
         double engineeringMax
     )
     {
-        var electricalValue = ((engineeringValue - engineeringMin) * span) /
+        return ((engineeringValue - engineeringMin) * electricalSpan) /
             (engineeringMax - engineeringMin) + lrv;
-
-        return electricalValue;
     }
 
     #endregion

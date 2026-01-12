@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Instrument-Plc-Converter")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+232779034fea349f10483021ce29d6d7df3ae86a")]
 [assembly: System.Reflection.AssemblyProductAttribute("Instrument-Plc-Converter")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Instrument-Plc-Converter")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

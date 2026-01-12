@@ -1,10 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "97ZmH4Du+rY=",
+  "dgSpecHash": "xDmNxoQedNo=",
   "success": true,
-  "projectFilePath": "C:\\Users\\stive\\Documents\\VS_Projects\\Instrument-Plc-Converter\\Instrument-Plc-Converter.csproj",
+  "projectFilePath": "C:\\Users\\Stiven\\Documents\\VS_Projects\\Instrument-plc-calc\\Instrument-Plc-Converter.csproj",
   "expectedPackageFiles": [
-    "C:\\Users\\stive\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512"
+    "C:\\Users\\Stiven\\.nuget\\packages\\communitytoolkit.mvvm\\8.4.0\\communitytoolkit.mvvm.8.4.0.nupkg.sha512"
   ],
   "logs": []
 }

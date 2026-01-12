@@ -29,7 +29,7 @@ public interface IScalingMath
     double EngineeringToElectrical(
         double engineeringValue, // Current Process Value, physical variable
         int lrv, // Signal Lower Range Value
-        double span, // Signal Span
+        double electricalSpan, // Signal Span
         double engineeringMin, // Process value LRV, physical variable
         double engineeringMax // Process value URV, physical variable
         );
